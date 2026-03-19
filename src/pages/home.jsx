@@ -1,12 +1,12 @@
 import React from 'react'
-import { Button,Row, Col, Navbar, Container, Nav, Card } from 'react-bootstrap'
+import { Button,Row, Col, Card } from 'react-bootstrap'
 import NavbarComponent from '../components/navbarComponent'
 
 import heroImg from '../assets/icons/hero_icon.png'
 
 function Home() {
   return (
-    <div style={{minHeight:'100vh',  overflowX:'hidden'}}>
+    <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
         <div>
             <NavbarComponent />
         </div>
@@ -70,7 +70,9 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Converter</Button>
+                    <Button href='/image-conversion' variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888', display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'}}>Image Converter</Button>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Compressor</Button>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Watermark</Button>
                   
