@@ -89,7 +89,16 @@ function Home() {
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image to PDF</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Background Remover</Button>
+                    <Button onClick={() =>{
+                      navigate('/bg-remove')
+                    }} variant='light' style={{
+                      width:200, 
+                      height:100, 
+                      boxShadow:'5px 10px #888888',
+                      display:'flex',
+                      justifyContent:'center',
+                      alignItems:'center'
+                      }}>Background Remover</Button>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Resizer</Button>
                   </div>
                 </Col>
