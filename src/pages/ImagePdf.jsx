@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { Button,Row, Col, Card } from 'react-bootstrap'
+import {Row, Col, Card, Button } from 'react-bootstrap'
 
 import NavbarComponent from '../components/NavbarComponent'
 import UploadCardComponent from '../components/UploadCardComponent';
 import DownloadResultsComponent from '../components/DownloadResultsComponent';
 
-function BackgroundRemoval() {
-
+function ImagePdf() {
   return (
     <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
        
@@ -17,8 +16,8 @@ function BackgroundRemoval() {
 
         <div className='container' style={{width: '100%',  padding:20}}>
           <div>
-            <h2 style={{fontWeight:'bold'}}>Background Removal</h2>
-            <span>Easily remove background of your photos <br />
+            <h2 style={{fontWeight:'bold'}}>Image to PDF</h2>
+            <span>Compile your images into single PDF file <br />
             </span>
           </div>
 
@@ -36,14 +35,15 @@ function BackgroundRemoval() {
             <Row style={{padding:'5px', height:'100%', width:'100%'}}>
 
               <Col style={{width:'100%'}}>
-                  <UploadCardComponent />
+                <UploadCardComponent />
+
                 <br /> 
                 <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
-                  <Button>Remove Background</Button>
+                  <Button>Download as PDF</Button>
                 </div>
-                
-              </Col>
-             </Row>
+
+                </Col>
+            </Row>
 
           </Card>
 
@@ -58,4 +58,4 @@ function BackgroundRemoval() {
   )
 }
 
-export default BackgroundRemoval
+export default ImagePdf

@@ -76,19 +76,29 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' href='/image-conversion' variant='light' >Image Converter</Button>
-                    <Button className='tool-style' variant='light'>Image Compressor</Button>
-                    <Button className='tool-style' variant='light'>Image Watermark</Button>
+                    <Button className='tool-style' onClick={() =>{
+                      navigate('image-conversion')
+                    }} variant='light' >Image Converter</Button>
+                    <Button onClick={() =>{
+                      navigate('image-compress')
+                    }} className='tool-style' variant='light'>Image Compressor</Button>
+                    <Button onClick={() =>{
+                      navigate('image-watermark')
+                    }} className='tool-style' variant='light'>Image Watermark</Button>
                   
                   </div>
                 </Col>
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>Image to PDF</Button>
+                    <Button onClick={() =>{
+                      navigate('image-pdf')
+                    }} className='tool-style' variant='light'>Image to PDF</Button>
                     <Button className='tool-style' onClick={() =>{
                       navigate('/bg-remove')
                     }} variant='light'>Background Remover</Button>
-                    <Button className='tool-style' variant='light'>Image Resizer</Button>
+                    <Button onClick={() =>{
+                      navigate('image-resize')
+                    }} className='tool-style' variant='light'>Image Resizer</Button>
                   </div>
                 </Col>
               </Row>
@@ -99,10 +109,18 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>PDF to Images</Button>
-                    <Button className='tool-style' variant='light'>PDF Merger</Button>
-                    <Button className='tool-style' variant='light'>PDF Compressor</Button>
-                    <Button className='tool-style' variant='light'>PDF to DOCX</Button>
+                    <Button onClick={() =>{
+                      navigate('pdf-image')
+                    }} className='tool-style' variant='light'>PDF to Images</Button>
+                    <Button onClick={() =>{
+                      navigate('pdf-merge')
+                    }} className='tool-style' variant='light'>PDF Merger</Button>
+                    <Button onClick={() =>{
+                      navigate('pdf-compress')
+                    }} className='tool-style' variant='light'>PDF Compressor</Button>
+                    <Button onClick={() =>{
+                      navigate('pdf-docx')
+                    }} className='tool-style' variant='light'>PDF to DOCX</Button>
                   </div>
                 </Col>
                 
