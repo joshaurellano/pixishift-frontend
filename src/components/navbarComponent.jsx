@@ -4,10 +4,9 @@ import logo from '../assets/icons/pixishift_logo.png'
 
 function NavbarComponent() {
   return (
-    <Navbar>
-                  
+    <Navbar style={{backgroundColor:'white', height:'60px'}}>
         <Container fluid>
-        <Navbar.Brand style={{fontWeight:'bold'}}>
+        <Navbar.Brand href='/' style={{fontWeight:'bold'}}>
             <img src={logo} 
                 alt='PixiShift Logo' 
                 height={80}/>
