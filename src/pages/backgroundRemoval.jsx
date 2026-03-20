@@ -35,7 +35,7 @@ function BackgroundRemoval() {
           }}> 
             <Row style={{padding:'5px', height:'100%', width:'100%'}}>
 
-              <Col lg={9} style={{width:'100%'}}>
+              <Col style={{width:'100%'}}>
                   <UploadCardComponent />
                 <br /> 
                 <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
