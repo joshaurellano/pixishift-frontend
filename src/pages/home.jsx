@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button,Row, Col, Card } from 'react-bootstrap'
-import NavbarComponent from '../components/navbarComponent'
+import NavbarComponent from '../components/NavbarComponent'
 import { useNavigate } from 'react-router-dom';
 
 import heroImg from '../assets/icons/hero_icon.png'

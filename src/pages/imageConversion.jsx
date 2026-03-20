@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Button,Row, Col, Card, Form } from 'react-bootstrap'
 
-import NavbarComponent from '../components/navbarComponent'
-import DownloadResultsComponent from '../components/downloadResultsComponent';
-import UploadCardComponent from '../components/uploadCardComponent';
+import NavbarComponent from '../components/NavbarComponent'
+import DownloadResultsComponent from '../components/DownloadResultsComponent';
+import UploadCardComponent from '../components/UploadCardComponent';
 
 function ImageConversion() {
   return (
