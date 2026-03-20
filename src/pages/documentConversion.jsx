@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 
 import { Button,Row, Col, Card, Form } from 'react-bootstrap'
-import NavbarComponent from '../components/navbarComponent'
 import { useLocation } from 'react-router-dom';
 
+import NavbarComponent from '../components/navbarComponent'
+import UploadCardComponent from '../components/uploadCardComponent';
+import DownloadResultsComponent from '../components/downloadResultsComponent';
+
 import { FaArrowRight } from "react-icons/fa";
-import { TiUpload } from "react-icons/ti";
 
 function DocumentConversion() {
   const location = useLocation();
@@ -38,22 +40,9 @@ function DocumentConversion() {
             boxShadow: '5px 5px #888888'
           }}> 
             <Row style={{padding:'5px', height:'100%'}}>
-              <Col lg={9}>
-                <Card style={{
-                  height: '100%',
-                  width:'100%',
-                  borderStyle:'dashed',
-                  borderWidth:'2px',
-                  justifyContent:'center',
-                  alignItems:'center'
-                }}>
-                  <div className='mt-2' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-                    <TiUpload style={{fontSize:'40'}}/>
-                    <span>Drag and Drop files here</span>
-                    <Form.Control type='file' style={{width:'100px'}} />
-                  </div>
 
-                  </Card>              
+              <Col lg={9}>
+                <UploadCardComponent />        
                 </Col>
 
                 <Col lg={3}>
@@ -79,10 +68,7 @@ function DocumentConversion() {
           </div>
             <br />
           <div>
-            <span style={{fontWeight:'bold'}}>Download Results</span>
-            <Card style={{height:'200px'}}>
-
-            </Card>
+            <DownloadResultsComponent />
           </div>
           
         </div>

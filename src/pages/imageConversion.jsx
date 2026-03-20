@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { Button,Row, Col, Card, Form } from 'react-bootstrap'
-import NavbarComponent from '../components/navbarComponent'
-import { TiUpload } from "react-icons/ti";
 
+import NavbarComponent from '../components/navbarComponent'
+import DownloadResultsComponent from '../components/downloadResultsComponent';
+import UploadCardComponent from '../components/uploadCardComponent';
 
 function ImageConversion() {
   return (
@@ -34,34 +35,20 @@ function ImageConversion() {
           }}> 
             <Row style={{padding:'5px', height:'100%'}}>
               <Col lg={9}>
-                <Card style={{
-                  height: '100%',
-                  width:'100%',
-                  borderStyle:'dashed',
-                  borderWidth:'2px',
-                  justifyContent:'center',
-                  alignItems:'center'
-                }}>
-                  <div className='mt-2' style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-                    <TiUpload style={{fontSize:'40'}}/>
-                    <span>Drag and Drop files here</span>
-                    <Form.Control type='file' style={{width:'100px'}} />
-                  </div>
-
-                  </Card>              
+                <UploadCardComponent />             
                 </Col>
 
                 <Col lg={3}>
                   <div style={{display:'flex', flexDirection:'column'}}>
                     <span style={{fontWeight:'bold'}}>Select Output Format</span>
                     <Form.Select aria-label="Default select example">
-                      <option value='0'>PNG</option>
-                      <option value="1">JPG</option>
-                      <option value="2">JPEG</option>
-                      <option value="3">WEBP</option>
-                      <option value="4">AVIF</option>
-                      <option value="5">BMP</option>
-                      <option value="6">TIFF</option>
+                      <option value='png'>PNG</option>
+                      <option value="jpg">JPG</option>
+                      <option value="jpeg">JPEG</option>
+                      <option value="webp">WEBP</option>
+                      <option value="avif">AVIF</option>
+                      <option value="bpm">BMP</option>
+                      <option value="tiff">TIFF</option>
                     </Form.Select>              
                   <br />
                   <Button>Convert Image</Button>
@@ -74,10 +61,7 @@ function ImageConversion() {
           </div>
             <br />
           <div>
-            <span style={{fontWeight:'bold'}}>Download Results</span>
-            <Card style={{height:'200px'}}>
-
-            </Card>
+            <DownloadResultsComponent />
           </div>
           
         </div>
