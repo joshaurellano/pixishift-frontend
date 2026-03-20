@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import heroImg from '../assets/icons/hero_icon.png'
 
+import '../styles/home.css'
+
 function Home() {
 
   const navigate = useNavigate();
@@ -74,32 +76,19 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button href='/image-conversion' variant='light' style={{
-                      width:200, 
-                      height:100, 
-                      boxShadow:'5px 10px #888888', 
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'}}>Image Converter</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Compressor</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Watermark</Button>
+                    <Button className='tool-style' href='/image-conversion' variant='light' >Image Converter</Button>
+                    <Button className='tool-style' variant='light'>Image Compressor</Button>
+                    <Button className='tool-style' variant='light'>Image Watermark</Button>
                   
                   </div>
                 </Col>
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image to PDF</Button>
-                    <Button onClick={() =>{
+                    <Button className='tool-style' variant='light'>Image to PDF</Button>
+                    <Button className='tool-style' onClick={() =>{
                       navigate('/bg-remove')
-                    }} variant='light' style={{
-                      width:200, 
-                      height:100, 
-                      boxShadow:'5px 10px #888888',
-                      display:'flex',
-                      justifyContent:'center',
-                      alignItems:'center'
-                      }}>Background Remover</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Resizer</Button>
+                    }} variant='light'>Background Remover</Button>
+                    <Button className='tool-style' variant='light'>Image Resizer</Button>
                   </div>
                 </Col>
               </Row>
@@ -110,10 +99,10 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>PDF to Images</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>PDF Merger</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>PDF Compressor</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>PDF to DOCX</Button>
+                    <Button className='tool-style' variant='light'>PDF to Images</Button>
+                    <Button className='tool-style' variant='light'>PDF Merger</Button>
+                    <Button className='tool-style' variant='light'>PDF Compressor</Button>
+                    <Button className='tool-style' variant='light'>PDF to DOCX</Button>
                   </div>
                 </Col>
                 
@@ -126,47 +115,27 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button onClick={() =>{
+                    <Button className='tool-style' onClick={() =>{
                         navigate('doc-conversion',{
                           state: {
                             type:'DOCX'
                           }
                         })
-                    }} variant='light' style={{
-                      width:200, 
-                      height:100, 
-                      boxShadow:'5px 10px #888888',
-                      display:'flex',
-                      alignItems:'center',
-                      justifyContent:'center'
-                      }}>DOCX to PDF</Button>
-                    <Button onClick={() =>{
+                    }} variant='light'>DOCX to PDF</Button>
+                    <Button className='tool-style'  onClick={() =>{
                         navigate('doc-conversion',{
                           state: {
                             type:'XLSX'
                           }
                         })
-                    }} variant='light' style={{
-                      width:200, 
-                      height:100, 
-                      boxShadow:'5px 10px #888888',
-                      display:'flex',
-                      alignItems:'center',
-                      justifyContent:'center'
-                      }}>XLSX to PDF</Button>
-                    <Button onClick={() =>{
+                    }} variant='light'>XLSX to PDF</Button>
+                    <Button className='tool-style'  onClick={() =>{
                         navigate('doc-conversion',{
                           state: {
                             type:'PPTX'
                           }
                         })
-                    }} variant='light' style={{
-                      width:200, 
-                      height:100, 
-                      boxShadow:'5px 10px #888888',
-                      display:'flex',
-                      alignItems:'center',
-                      justifyContent:'center'}}>PPTX to PDF</Button>
+                    }} variant='light'>PPTX to PDF</Button>
                   </div>
                 </Col>
                 
@@ -181,34 +150,34 @@ function Home() {
               <Row className='mt-2'>
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch Image Processing</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch Image Resizing</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch Image Compression</Button>
+                    <Button className='tool-style' variant='light'>Batch Image Processing</Button>
+                    <Button className='tool-style' variant='light'>Batch Image Resizing</Button>
+                    <Button className='tool-style' variant='light'>Batch Image Compression</Button>
                   </div>
                 </Col>
 
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch Background Removal</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch PDF to Images</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch PDF Merger</Button>
+                    <Button className='tool-style' variant='light'>Batch Background Removal</Button>
+                    <Button className='tool-style' variant='light'>Batch PDF to Images</Button>
+                    <Button className='tool-style' variant='light'>Batch PDF Merger</Button>
                   </div>
                 </Col>
 
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch PDF Compression</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch Image Watermark</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch PDF to DOCX</Button>
+                    <Button className='tool-style' variant='light'>Batch PDF Compression</Button>
+                    <Button className='tool-style' variant='light'>Batch Image Watermark</Button>
+                    <Button className='tool-style' variant='light'>Batch PDF to DOCX</Button>
                     
                   </div>
                 </Col>
 
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch DOCX to PDF </Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch XLSX to PDF</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Batch PPTX to PDF</Button>
+                    <Button className='tool-style' variant='light'>Batch DOCX to PDF </Button>
+                    <Button className='tool-style' variant='light'>Batch XLSX to PDF</Button>
+                    <Button className='tool-style' variant='light'>Batch PPTX to PDF</Button>
                   </div>
                 </Col>
 
