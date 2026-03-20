@@ -1,10 +1,14 @@
 import React from 'react'
 import { Button,Row, Col, Card } from 'react-bootstrap'
 import NavbarComponent from '../components/navbarComponent'
+import { useNavigate } from 'react-router-dom';
 
 import heroImg from '../assets/icons/hero_icon.png'
 
 function Home() {
+
+  const navigate = useNavigate();
+
   return (
     <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
         <div>
@@ -70,9 +74,13 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button href='/image-conversion' variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888', display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'}}>Image Converter</Button>
+                    <Button href='/image-conversion' variant='light' style={{
+                      width:200, 
+                      height:100, 
+                      boxShadow:'5px 10px #888888', 
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'}}>Image Converter</Button>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Compressor</Button>
                     <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>Image Watermark</Button>
                   
@@ -109,9 +117,47 @@ function Home() {
               <Row className="mt-2">
                 <Col>
                   <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>DOCX to PDF</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>XLSX to PDF</Button>
-                    <Button variant='light' style={{width:200, height:100, boxShadow:'5px 10px #888888'}}>PPTX to PDF</Button>
+                    <Button onClick={() =>{
+                        navigate('doc-conversion',{
+                          state: {
+                            type:'DOCX'
+                          }
+                        })
+                    }} variant='light' style={{
+                      width:200, 
+                      height:100, 
+                      boxShadow:'5px 10px #888888',
+                      display:'flex',
+                      alignItems:'center',
+                      justifyContent:'center'
+                      }}>DOCX to PDF</Button>
+                    <Button onClick={() =>{
+                        navigate('doc-conversion',{
+                          state: {
+                            type:'XLSX'
+                          }
+                        })
+                    }} variant='light' style={{
+                      width:200, 
+                      height:100, 
+                      boxShadow:'5px 10px #888888',
+                      display:'flex',
+                      alignItems:'center',
+                      justifyContent:'center'
+                      }}>XLSX to PDF</Button>
+                    <Button onClick={() =>{
+                        navigate('doc-conversion',{
+                          state: {
+                            type:'PPTX'
+                          }
+                        })
+                    }} variant='light' style={{
+                      width:200, 
+                      height:100, 
+                      boxShadow:'5px 10px #888888',
+                      display:'flex',
+                      alignItems:'center',
+                      justifyContent:'center'}}>PPTX to PDF</Button>
                   </div>
                 </Col>
                 
