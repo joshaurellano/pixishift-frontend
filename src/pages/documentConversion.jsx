@@ -3,9 +3,9 @@ import React, {useState} from 'react'
 import { Button,Row, Col, Card, Form } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom';
 
-import NavbarComponent from '../components/navbarComponent'
-import UploadCardComponent from '../components/uploadCardComponent';
-import DownloadResultsComponent from '../components/downloadResultsComponent';
+import NavbarComponent from '../components/NavbarComponent'
+import UploadCardComponent from '../components/UploadCardComponent';
+import DownloadResultsComponent from '../components/DownloadResultsComponent';
 
 import { FaArrowRight } from "react-icons/fa";
 
