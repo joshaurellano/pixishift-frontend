@@ -122,10 +122,6 @@ function Home() {
                   padding: '4px 14px',
                   marginBottom: 18,
                 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#a3f7bf' }} />
-                  <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12, fontWeight: 500 }}>
-                    Free — No sign up needed
-                  </span>
                 </div>
 
                 <h1 style={{
