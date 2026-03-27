@@ -192,12 +192,6 @@ function Home() {
                     gap: 8,
                     marginBottom: 16,
                   }}>
-                    <div style={{
-                      width: 10, height: 10,
-                      borderRadius: '50%',
-                      backgroundColor: accent,
-                      boxShadow: `0 0 0 3px ${accent}28`,
-                    }} />
                     <span style={{
                       fontSize: 14,
                       fontWeight: 700,
