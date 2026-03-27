@@ -161,49 +161,7 @@ function Home() {
             </Col>
           </Row>
             <br />
-
-          <Row>
-            <Col>
-              <span style={{fontWeight:'bold', fontSize:20}}>Batch Processing</span>
-              <Row className='mt-2'>
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>Batch Image Processing</Button>
-                    <Button className='tool-style' variant='light'>Batch Image Resizing</Button>
-                    <Button className='tool-style' variant='light'>Batch Image Compression</Button>
-                  </div>
-                </Col>
-
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>Batch Background Removal</Button>
-                    <Button className='tool-style' variant='light'>Batch PDF to Images</Button>
-                    <Button className='tool-style' variant='light'>Batch PDF Merger</Button>
-                  </div>
-                </Col>
-
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>Batch PDF Compression</Button>
-                    <Button className='tool-style' variant='light'>Batch Image Watermark</Button>
-                    <Button className='tool-style' variant='light'>Batch PDF to DOCX</Button>
-                    
-                  </div>
-                </Col>
-
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' variant='light'>Batch DOCX to PDF </Button>
-                    <Button className='tool-style' variant='light'>Batch XLSX to PDF</Button>
-                    <Button className='tool-style' variant='light'>Batch PPTX to PDF</Button>
-                  </div>
-                </Col>
-
-              </Row>              
-            </Col>
-          </Row>
-        </div>
-        
+      </div>     
     </div>
   )
 }
