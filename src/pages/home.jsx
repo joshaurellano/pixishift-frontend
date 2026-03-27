@@ -1,159 +1,231 @@
-import React from 'react'
-import { Button,Row, Col, Card } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Row, Col, Card } from 'react-bootstrap'
 import NavbarComponent from '../components/NavbarComponent'
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'
 import heroImg from '../assets/icons/hero_icon.png'
 
-import '../styles/home.css'
+const tools = {
+  'Image Tools': {
+    accent: '#3b82f6',
+    bg: '#eff6ff',
+    items: [
+      { label: 'Image Converter', route: 'image-conversion', icon: '⇄' },
+      { label: 'Image Resizer', route: 'image-resize', icon: '⤢' },
+      { label: 'Image Compressor', route: 'image-compress', icon: '⊡' },
+      { label: 'Image to PDF', route: 'image-pdf', icon: '⬓' },
+      { label: 'Background Remover', route: '/bg-remove', icon: '✦' },
+      { label: 'Image Watermark', route: 'image-watermark', icon: '◈' },
+    ],
+  },
+  'PDF Tools': {
+    accent: '#f97316',
+    bg: '#fff7ed',
+    items: [
+      { label: 'PDF to Images', route: 'pdf-image', icon: '⬒' },
+      { label: 'PDF Merger', route: 'pdf-merge', icon: '⊕' },
+      { label: 'PDF Compressor', route: 'pdf-compress', icon: '⊟' },
+    ],
+  },
+  'Office Tools': {
+    accent: '#10b981',
+    bg: '#ecfdf5',
+    items: [
+      { label: 'Office to PDF', route: 'doc-conversion', icon: '⇪', state: { type: 'DOCX' } },
+      { label: 'PDF to DOCX', route: 'pdf-docx', icon: '⇩' },
+    ],
+  },
+}
 
-function Home() {
-
-  const navigate = useNavigate();
+function ToolCard({ label, icon, accent, bg, onClick }) {
+  const [hovered, setHovered] = useState(false)
 
   return (
-    <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
-        <div>
-            <NavbarComponent />
-        </div>
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '11px 14px',
+        borderRadius: 10,
+        cursor: 'pointer',
+        backgroundColor: hovered ? bg : '#fff',
+        border: `1.5px solid ${hovered ? accent : '#e9ecef'}`,
+        transition: 'all 0.17s ease',
+        transform: hovered ? 'translateY(-1px)' : 'none',
+        boxShadow: hovered ? `0 4px 12px ${accent}25` : '0 1px 3px rgba(0,0,0,0.04)',
+      }}
+    >
+      <span style={{
+        fontSize: 15,
+        color: accent,
+        width: 30,
+        height: 30,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: bg,
+        borderRadius: 7,
+        flexShrink: 0,
+      }}>
+        {icon}
+      </span>
+      <span style={{
+        fontSize: 13.5,
+        fontWeight: 500,
+        color: hovered ? '#111827' : '#374151',
+      }}>
+        {label}
+      </span>
+    </div>
+  )
+}
 
-        <div style={{width: '100%',  padding:20}}>
-          <Card style={{
-          padding: '40px',
-          width: '100%',
-          background: 'linear-gradient(135deg, #1a3de4 0%, #0ab8a0 100%)',
-          borderRadius: '20px',
+function Home() {
+  const navigate = useNavigate()
+
+  return (
+    <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fb', overflowX: 'hidden' }}>
+      <NavbarComponent />
+
+      <div style={{ padding: '24px 24px 0' }}>
+        <Card style={{
           border: 'none',
-          minHeight: '280px'
+          borderRadius: 20,
+          background: 'linear-gradient(135deg, #1a3de4 0%, #0ab8a0 100%)',
+          overflow: 'hidden',
+          position: 'relative',
+          minHeight: 240,
         }}>
-          <Row className="align-items-center justify-content-center" style={{ minHeight: '200px'}}>
+          <div style={{
+            position: 'absolute', width: 300, height: 300,
+            borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.06)',
+            top: -80, right: 260, pointerEvents: 'none',
+          }} />
+          <div style={{
+            position: 'absolute', width: 200, height: 200,
+            borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)',
+            bottom: -60, left: '40%', pointerEvents: 'none',
+          }} />
 
-            <Col md={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
-              <div>
-              <h1 style={{
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: '2.2rem',
-                lineHeight: 1.2,
-                marginBottom: '20px'
-              }}>
-                Shift your files,<br />
-                simplify your workflow
-              </h1>
-              <div>
-                <Button
-                  variant='light'
-                  style={{ fontWeight: '600', padding: '10px 24px', borderRadius: '8px' }}
-                >
-                  Get Started - It's Free!
-                </Button>
+          <Card.Body style={{ padding: '48px 52px' }}>
+            <Row className="align-items-center">
+              <Col md={6}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: 'rgba(255,255,255,0.15)',
+                  borderRadius: 20,
+                  padding: '4px 14px',
+                  marginBottom: 18,
+                }}>
                 </div>
-                
-              </div>
-            </Col>
 
-            <Col md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img
-                src={heroImg}
-                alt='hero icon'
-                style={{ maxHeight: '200px', objectFit: 'contain' }}
-              />
-            </Col>
+                <h1 style={{
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: '2.2rem',
+                  lineHeight: 1.2,
+                  marginBottom: 24,
+                  letterSpacing: '-0.02em',
+                }}>
+                  Shift your files,<br />
+                  simplify your workflow
+                </h1>
 
-          </Row>
+                <button style={{
+                  backgroundColor: '#fff',
+                  color: '#1a3de4',
+                  border: 'none',
+                  borderRadius: 10,
+                  padding: '11px 26px',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+                  letterSpacing: '-0.01em',
+                }}>
+                  Get Started — It's Free
+                </button>
+              </Col>
+
+              <Col md={6} className="d-flex justify-content-center align-items-center mt-4 mt-md-0">
+                <img
+                  src={heroImg}
+                  alt="hero"
+                  style={{ maxHeight: 180, objectFit: 'contain', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.2))' }}
+                />
+              </Col>
+            </Row>
+          </Card.Body>
         </Card>
-        </div>
+      </div>
 
-        <div className='container' style={{
-          padding:20,
-          display:'flex',
-          flexDirection:'column',
-          justifyContent:'start'
+      <div style={{ padding: '32px 24px 60px' }}>
+        <p style={{
+          fontSize: 11.5,
+          fontWeight: 600,
+          color: '#9ca3af',
+          textTransform: 'uppercase',
+          letterSpacing: '0.09em',
+          marginBottom: 20,
         }}>
-          <Row>
-            <Col lg={6}>
-              <span style={{fontWeight:'bold', fontSize:20}}>Image Tools </span>
-              <Row className="mt-2">
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' onClick={() =>{
-                      navigate('image-conversion')
-                    }} variant='light' >Image Converter</Button>
+          All Tools
+        </p>
 
-                    <Button onClick={() =>{
-                      navigate('image-resize')
-                    }} className='tool-style' variant='light'>Image Resizer</Button>
-                    
-                    {/* <Button onClick={() =>{
-                      navigate('image-compress')
-                    }} className='tool-style' variant='light'>Image Compressor</Button>
-                    <Button onClick={() =>{
-                      navigate('image-watermark')
-                    }} className='tool-style' variant='light'>Image Watermark</Button> */}
-                  
+        <Row className="g-4">
+          {Object.entries(tools).map(([category, { accent, bg, items }]) => (
+            <Col key={category} lg={4}>
+              <Card style={{
+                border: '1px solid #e9ecef',
+                borderRadius: 14,
+                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                height: '100%',
+              }}>
+                <Card.Body style={{ padding: 22 }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    marginBottom: 16,
+                  }}>
+                    <div style={{
+                      width: 10, height: 10,
+                      borderRadius: '50%',
+                      backgroundColor: accent,
+                      boxShadow: `0 0 0 3px ${accent}28`,
+                    }} />
+                    <span style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: '#0f172a',
+                      letterSpacing: '-0.01em',
+                    }}>
+                      {category}
+                    </span>
                   </div>
-                </Col>
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button onClick={() =>{
-                      navigate('image-pdf')
-                    }} className='tool-style' variant='light'>Image to PDF</Button>
-                    <Button className='tool-style' onClick={() =>{
-                      navigate('/bg-remove')
-                    }} variant='light'>Background Remover</Button>
-                    
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {items.map(({ label, route, icon, state }) => (
+                      <ToolCard
+                        key={label}
+                        label={label}
+                        icon={icon}
+                        accent={accent}
+                        bg={bg}
+                        onClick={() => navigate(route, state ? { state } : undefined)}
+                      />
+                    ))}
                   </div>
-                </Col>
-              </Row>
+                </Card.Body>
+              </Card>
             </Col>
-
-            <Col lg={3}>
-              <span style={{fontWeight:'bold', fontSize:20}}>PDF Tools </span>
-              <Row className="mt-2">
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button onClick={() =>{
-                      navigate('pdf-image')
-                    }} className='tool-style' variant='light'>PDF to Images</Button>
-                    {/* <Button onClick={() =>{
-                      navigate('pdf-merge')
-                    }} className='tool-style' variant='light'>PDF Merger</Button> */}
-                    <Button onClick={() =>{
-                      navigate('pdf-compress')
-                    }} className='tool-style' variant='light'>PDF Compressor</Button>
-                    
-                  </div>
-                </Col>
-                
-              </Row>
-            </Col>
-
-            <Col lg={3}>
-              <span style={{fontWeight:'bold', fontSize:20}}>Office Tools </span>
-
-              <Row className="mt-2">
-                <Col>
-                  <div style={{display:'flex', flexDirection:'column', gap: 10}}>
-                    <Button className='tool-style' onClick={() =>{
-                        navigate('doc-conversion',{
-                          state: {
-                            type:'DOCX'
-                          }
-                        })
-                    }} variant='light'>Office documents to PDF</Button>
-
-                      <Button onClick={() =>{
-                        navigate('pdf-docx')
-                      }} className='tool-style' variant='light'>PDF to DOCX</Button>
-                    
-                  </div>
-                </Col>
-                
-              </Row>
-            </Col>
-          </Row>
-            <br />
-      </div>     
+          ))}
+        </Row>
+      </div>
     </div>
   )
 }
