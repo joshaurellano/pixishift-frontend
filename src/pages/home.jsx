@@ -79,12 +79,17 @@ function Home() {
                     <Button className='tool-style' onClick={() =>{
                       navigate('image-conversion')
                     }} variant='light' >Image Converter</Button>
+
                     <Button onClick={() =>{
+                      navigate('image-resize')
+                    }} className='tool-style' variant='light'>Image Resizer</Button>
+                    
+                    {/* <Button onClick={() =>{
                       navigate('image-compress')
                     }} className='tool-style' variant='light'>Image Compressor</Button>
                     <Button onClick={() =>{
                       navigate('image-watermark')
-                    }} className='tool-style' variant='light'>Image Watermark</Button>
+                    }} className='tool-style' variant='light'>Image Watermark</Button> */}
                   
                   </div>
                 </Col>
@@ -96,9 +101,7 @@ function Home() {
                     <Button className='tool-style' onClick={() =>{
                       navigate('/bg-remove')
                     }} variant='light'>Background Remover</Button>
-                    <Button onClick={() =>{
-                      navigate('image-resize')
-                    }} className='tool-style' variant='light'>Image Resizer</Button>
+                    
                   </div>
                 </Col>
               </Row>
@@ -112,15 +115,13 @@ function Home() {
                     <Button onClick={() =>{
                       navigate('pdf-image')
                     }} className='tool-style' variant='light'>PDF to Images</Button>
-                    <Button onClick={() =>{
+                    {/* <Button onClick={() =>{
                       navigate('pdf-merge')
-                    }} className='tool-style' variant='light'>PDF Merger</Button>
+                    }} className='tool-style' variant='light'>PDF Merger</Button> */}
                     <Button onClick={() =>{
                       navigate('pdf-compress')
                     }} className='tool-style' variant='light'>PDF Compressor</Button>
-                    <Button onClick={() =>{
-                      navigate('pdf-docx')
-                    }} className='tool-style' variant='light'>PDF to DOCX</Button>
+                    
                   </div>
                 </Col>
                 
@@ -139,21 +140,12 @@ function Home() {
                             type:'DOCX'
                           }
                         })
-                    }} variant='light'>DOCX to PDF</Button>
-                    <Button className='tool-style'  onClick={() =>{
-                        navigate('doc-conversion',{
-                          state: {
-                            type:'XLSX'
-                          }
-                        })
-                    }} variant='light'>XLSX to PDF</Button>
-                    <Button className='tool-style'  onClick={() =>{
-                        navigate('doc-conversion',{
-                          state: {
-                            type:'PPTX'
-                          }
-                        })
-                    }} variant='light'>PPTX to PDF</Button>
+                    }} variant='light'>Office documents to PDF</Button>
+
+                      <Button onClick={() =>{
+                        navigate('pdf-docx')
+                      }} className='tool-style' variant='light'>PDF to DOCX</Button>
+                    
                   </div>
                 </Col>
                 
