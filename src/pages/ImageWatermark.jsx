@@ -105,16 +105,42 @@ function ImageWatermark() {
 
               <Col lg={3}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 'bold' }}>Watermark Image</span>
-                  <span style={{ fontSize: 12, color: '#666', marginBottom: 6 }}>
-                    Select the image to use as watermark
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4 }}>
+      
+                  <span style={{ fontWeight: 600, fontSize: 13.5, color: '#111827' }}>Watermark Image</span>
+                </div>
+                <p style={{ fontSize: 12, color: '#9CA3AF', marginBottom: 8, lineHeight: 1.4 }}>
+                  Choose a PNG or image to overlay as a watermark
+                </p>
+
+                <label style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  border: '1.5px dashed #D1D5DB',
+                  borderRadius: 8,
+                  padding: '8px 12px',
+                  cursor: 'pointer',
+                  backgroundColor: watermarkFile ? '#EEF2FF' : '#FAFAFA',
+                  transition: 'all 0.2s',
+                  fontSize: 12.5,
+                  color: watermarkFile ? '#1a3de4' : '#6B7280',
+                }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 140 }}>
+                    {watermarkFile ? watermarkFile.name : 'Click to select watermark'}
                   </span>
                   <input
                     type='file'
                     accept='image/*'
                     onChange={handleWatermarkChange}
-                    style={{ fontSize: 13 }}
+                    style={{ display: 'none' }}
                   />
+                </label>
                   <br />
                   <Button
                     onClick={handleWatermark}
