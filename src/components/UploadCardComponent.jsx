@@ -61,7 +61,7 @@ function UploadCardComponent({ onFileChange }) {
       onDrop={handleDrop}
 
      style={{     
-        height: '100%',
+        minHeight: '320px',
         width: '100%',
         borderStyle: 'dashed',
         borderWidth: '2px',

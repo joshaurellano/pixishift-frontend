@@ -8,6 +8,8 @@ import DownloadResultsComponent from '../components/DownloadResultsComponent'
 
 import { API_ENDPOINT } from '../../Api'
 
+import '../styles/uploadCol.css'
+
 function PdfDocx() {
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
@@ -80,14 +82,7 @@ function PdfDocx() {
 
         <br />
         <div>
-          <Card style={{
-            padding: '40px',
-            width: '100%',
-            borderRadius: '20px',
-            border: 'none',
-            minHeight: '320px',
-            boxShadow: '5px 5px #888888'
-          }}>
+          <Card className='uploadCol'>
             <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
               <Col style={{ width: '100%' }}>
                 <UploadCardComponent onFileChange={handleFileChange} />

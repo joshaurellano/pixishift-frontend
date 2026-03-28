@@ -8,9 +8,11 @@ import DownloadResultsComponent from '../components/DownloadResultsComponent'
 
 import { API_ENDPOINT } from '../../Api'
 
+import '../styles/uploadCol.css'
+
 function ImageCompress() {
   const [files, setFiles] = useState([])
-  const [quality, setQuality] = useState(80)
+  const [quality, setQuality] = useState(50)
   const [loading, setLoading] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState(null)
   const [downloadName, setDownloadName] = useState('')
@@ -82,14 +84,7 @@ function ImageCompress() {
 
         <br />
         <div>
-          <Card style={{
-            padding: '40px',
-            width: '100%',
-            borderRadius: '20px',
-            border: 'none',
-            minHeight: '320px',
-            boxShadow: '5px 5px #888888'
-          }}>
+          <Card className='uploadCol'>
             <Row style={{ padding: '5px', height: '100%' }}>
               <Col lg={9}>
                 <UploadCardComponent onFileChange={handleFileChange} />

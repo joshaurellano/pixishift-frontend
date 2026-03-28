@@ -8,6 +8,8 @@ import UploadCardComponent from '../components/UploadCardComponent'
 
 import { API_ENDPOINT } from '../../Api'
 
+import '../styles/uploadCol.css'
+
 function ImageConversion() {
   const [files, setFiles] = useState([])
   const [outputFormat, setOutputFormat] = useState('png')
@@ -83,14 +85,7 @@ function ImageConversion() {
 
         <br />
         <div>
-          <Card style={{
-            padding: '40px',
-            width: '100%',
-            borderRadius: '20px',
-            border: 'none',
-            height: '320px',
-            boxShadow: '5px 5px #888888'
-          }}>
+          <Card className='uploadCol'>
             <Row style={{ padding: '5px', height: '100%' }}>
               <Col lg={9}>
                 <UploadCardComponent onFileChange={handleFileChange} />

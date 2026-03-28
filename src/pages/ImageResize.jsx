@@ -8,6 +8,8 @@ import DownloadResultsComponent from '../components/DownloadResultsComponent';
 
 import { API_ENDPOINT } from '../../Api'
 
+import '../styles/uploadCol.css'
+
 function ImageResize() {
   const [files, setFiles] = useState([])
   const [width, setWidth] = useState('')
@@ -86,15 +88,7 @@ function ImageResize() {
 
           <br />          
           <div>
-            <Card style={{
-            padding: '40px',
-            width: '100%',
-            // background: 'linear-gradient(135deg, #1a3de4 0%, #0ab8a0 100%)',
-            borderRadius: '20px',
-            border: 'none',
-            minHeight: '320px',
-            boxShadow: '5px 5px #888888'
-          }}> 
+            <Card className='uploadCol'> 
             <Row style={{padding:'5px', height:'100%'}}>
 
               <Col lg={9}>
