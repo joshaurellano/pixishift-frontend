@@ -43,8 +43,8 @@ const tools = {
 }
 
 const stats = [
-  { value: '10M+', label: 'Files Processed' },
-  { value: '150+', label: 'Countries' },
+  { value: 'More reach', label: 'than your high school rumors.' },
+  { value: '10M+', label: 'files saved from the "Trash" bin.' },
   { value: '100%', label: 'Free to Use' },
   { value: '0', label: 'Sign-up Required' },
 ]
@@ -55,7 +55,7 @@ const howItWorks = [
   { step: '03', title: 'Download', desc: 'Get your converted file in seconds, no watermarks.', icon: '⬇' },
 ]
 
-function ToolCard({ label, icon, accent, bg, desc, popular, onClick }) {
+function ToolCard({ label, icon, accent, bg, desc, onClick }) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -102,21 +102,7 @@ function ToolCard({ label, icon, accent, bg, desc, popular, onClick }) {
           }}>
             {label}
           </span>
-          {popular && (
-            <span style={{
-              fontSize: 9.5,
-              fontWeight: 700,
-              color: accent,
-              backgroundColor: bg,
-              border: `1px solid ${accent}44`,
-              borderRadius: 20,
-              padding: '1px 7px',
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-            }}>
-              Popular
-            </span>
-          )}
+  
         </div>
         <p style={{
           fontSize: 11.5,
@@ -201,7 +187,6 @@ function Home() {
                   backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 20,
                   padding: '5px 14px', marginBottom: 18,
                 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: '#4ade80', display: 'inline-block' }} />
                   <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)', fontWeight: 500 }}>
                     100% Free · No sign-up needed
                   </span>
@@ -407,9 +392,6 @@ function Home() {
       {/* ── How It Works ── */}
       <div id="how-it-works" style={{ padding: '52px 24px 0' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <p style={{ fontSize: 11.5, fontWeight: 700, color: '#1a3de4', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>
-            Simple by Design
-          </p>
           <h2 style={{ fontSize: '1.7rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', marginBottom: 8 }}>
             How It Works
           </h2>
@@ -471,7 +453,7 @@ function Home() {
             Ready to get started?
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 14, marginBottom: 26, maxWidth: 380 }}>
-            Join millions of users who trust PixiShift for fast, free file conversions.
+            Shift your files effortlessly and get back to what matters
           </p>
           <button
             onClick={() => document.getElementById('tools-section').scrollIntoView({ behavior: 'smooth' })}
