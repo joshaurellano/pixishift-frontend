@@ -12,11 +12,11 @@ const tools = {
     icon: '🖼️',
     items: [
       { label: 'Image Converter', route: 'image-conversion', icon: '⇄', desc: 'Convert between JPG, PNG, WebP & more', popular: true },
-      { label: 'Image Resizer', route: 'image-resize', icon: '⤢', desc: 'Resize images to exact dimensions' },
+      { label: 'Image Resizer', route: 'image-resize', icon: '⤢', desc: 'Resize images to desired dimensions' },
       { label: 'Image Compressor', route: 'image-compress', icon: '⊡', desc: 'Reduce file size without quality loss', popular: true },
       { label: 'Image to PDF', route: 'image-pdf', icon: '⬓', desc: 'Bundle images into a single PDF' },
       { label: 'Background Remover', route: '/bg-remove', icon: '✦', desc: 'Remove backgrounds automatically', popular: true },
-      { label: 'Image Watermark', route: 'image-watermark', icon: '◈', desc: 'Add custom text or logo watermarks' },
+      { label: 'Image Watermark', route: 'image-watermark', icon: '◈', desc: 'Add custom watermarks' },
     ],
   },
   'PDF Tools': {
