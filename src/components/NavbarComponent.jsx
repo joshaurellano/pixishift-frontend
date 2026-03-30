@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
-import logo from '../assets/icons/pixishift_logo.png'
+import logo from '../assets/icons/pixishift_Logo.svg'
 
 function NavbarComponent() {
   return (
@@ -9,15 +9,9 @@ function NavbarComponent() {
         <Navbar.Brand href='/' style={{fontWeight:'bold'}}>
             <img src={logo} 
                 alt='PixiShift Logo' 
-                height={80}/>
+                height={130}/>
 
         </Navbar.Brand>
-
-        <Nav className="ms-auto" style={{fontWeight:'bold'}}>
-            <Nav.Link>Tools</Nav.Link>
-            <Nav.Link>How it Works</Nav.Link>
-            <Nav.Link>About</Nav.Link>
-        </Nav>
         </Container>
 
     </Navbar>
