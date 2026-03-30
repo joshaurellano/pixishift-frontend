@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
-import logo from '../assets/icons/pixishift_Logo.svg'
+import logo from '../assets/icons/pixishift_logo.svg'
 
 function NavbarComponent() {
   return (
