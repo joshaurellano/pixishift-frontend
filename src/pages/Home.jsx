@@ -101,15 +101,6 @@ function ToolCard({ label, icon, accent, bg, desc, onClick }) {
           {desc}
         </p>
       </div>
-      <span style={{
-        color: accent,
-        opacity: hovered ? 1 : 0,
-        transition: 'opacity 0.18s',
-        fontSize: 14,
-        flexShrink: 0,
-      }}>
-        →
-      </span>
     </div>
   )
 }
@@ -150,7 +141,7 @@ function Home() {
           <Card.Body style={{ padding: '48px 52px' }}>
             <Row className="align-items-center">
               <Col md={6}>
-                <div style={{
+                {/* <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 20,
                   padding: '5px 14px', marginBottom: 18,
@@ -158,21 +149,21 @@ function Home() {
                   <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)', fontWeight: 500 }}>
                     100% Free · No sign-up needed
                   </span>
-                </div>
+                </div> */}
 
                 <h1 style={{
                   color: '#fff', fontWeight: 800, fontSize: '2.3rem',
                   lineHeight: 1.2, marginBottom: 12, letterSpacing: '-0.03em',
                 }}>
-                  Shift your files,<br />
-                  simplify your workflow
+                  Transform your files,<br />
+                  elevate your work
                 </h1>
 
                 <p style={{
                   color: 'rgba(255,255,255,0.75)', fontSize: 14.5,
                   marginBottom: 28, lineHeight: 1.6, maxWidth: 380,
                 }}>
-                  Convert, compress, and transform images, PDFs, and Office files — all in one place, instantly.
+                  Your favorite image and document tools - All for free 
                 </p>
 
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -185,7 +176,7 @@ function Home() {
                       cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
                       letterSpacing: '-0.01em',
                     }}>
-                    Get Started — It's Free
+                    Get Started — No signup needed
                   </button>
                   <button
                     onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}
