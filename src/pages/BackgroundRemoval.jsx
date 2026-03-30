@@ -36,7 +36,8 @@ function BackgroundRemoval() {
     try {
       const formData = new FormData()
       let response
-
+      
+      if(files.length === 1) {
       formData.append('file', files[0])
       response = await axios.post(
         `${API_ENDPOINT}/remove-bg`,
@@ -45,6 +46,15 @@ function BackgroundRemoval() {
       )
       const baseName = files[0].name.split('.')[0]
       setDownloadName(`${baseName}_bg-removed.png`)
+    } else {
+      files.forEach(file => formData.append('files',file))
+      response = await axios.post(
+        `${API_ENDPOINT}/batch-remove`,
+        formData,
+      { responseType: 'blob'}
+      )
+      setDownloadName('pixishift_removed-bg.zip')
+    }
 
       const blob = new Blob([response.data])
       const url = URL.createObjectURL(blob)
