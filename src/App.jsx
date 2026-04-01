@@ -12,6 +12,7 @@ import PdfDocx from "./pages/PdfDocx"
 import PdfImage from "./pages/PdfImage"
 import PdfMerge from "./pages/PdfMerge"
 import PdfCompress from "./pages/PdfCompress"
+import ContactPage from "./pages/ContactPage"
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/pdf-image" element={<PdfImage />}/>
         <Route path="/pdf-merge" element={<PdfMerge />}/>
         <Route path="/pdf-compress" element={<PdfCompress />}/>
+        <Route path="/contact-us" element={<ContactPage />}/>
       </Routes>
     </Router>
   )
