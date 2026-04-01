@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Button, Row, Col, Card, Form, Spinner } from 'react-bootstrap'
 
+import FooterComponent from '../components/FooterComponent';
 import NavbarComponent from '../components/NavbarComponent'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
 import UploadCardComponent from '../components/UploadCardComponent'
@@ -138,6 +139,10 @@ function ImageConversion() {
         </div>
 
       </div>
+
+      <div>
+          <FooterComponent />
+        </div>
     </div>
   )
 }

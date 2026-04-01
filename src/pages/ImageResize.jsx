@@ -2,6 +2,7 @@ import React, { useState }  from 'react'
 import axios from 'axios'
 import {Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap'
 
+import FooterComponent from '../components/FooterComponent';
 import NavbarComponent from '../components/NavbarComponent'
 import UploadCardComponent from '../components/UploadCardComponent';
 import DownloadResultsComponent from '../components/DownloadResultsComponent';
@@ -154,6 +155,10 @@ function ImageResize() {
               downloadName={downloadName} />
           </div>
           
+        </div>
+
+        <div>
+          <FooterComponent />
         </div>
     </div>
   )
