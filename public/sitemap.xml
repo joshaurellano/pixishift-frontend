@@ -45,4 +45,15 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pixis
+    <loc>https://pixishift.vercel.app/pdf-compress</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pixishift.vercel.app/contact-us</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pixishift.vercel.app/support</loc>
+    <priority>0.5</priority>
+  </url>
+</urlset>
