@@ -100,23 +100,31 @@ function DocumentConversion() {
 
         <div>
           <Card className='uploadCol'>
-            <Row style={{padding:'5px', height:'100%', width:'100%'}}>
-
-              <Col style={{width:'100%'}}>
-                <div style={{display:'flex', flexDirection:'column'}}>
-                  <h2>Office <FaArrowRight /> PDF</h2>
+            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                  <h4>Office <FaArrowRight /> PDF</h4>
                     <Row>
                       <Col style={{display:'flex', gap:10}}>
-                        <Badge bg="primary">Word .docx</Badge>
-                        <Badge bg="primary">Excel .xlsx</Badge>
-                        <Badge bg="primary">Powerpoint .pptx</Badge>
+                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Word .docx
+                        </div>
+                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Excel .xlsx
+                        </div>
+                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Powerpoint .pptx
+                        </div>
                       </Col>
                     </Row>
                 </div>
+            </div>
+            <Row style={{padding:'5px', height:'100%', width:'100%'}}>
+
+              <Col style={{width:'100%'}}>
+                
                 <br />
                   <UploadCardComponent onFileChange={handleFileChange} />
-                <br />
-                  <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
+                  <div style={{width:'100%', display:'flex', justifyContent:'center', marginBottom:15, marginTop:15}}>
                     <Button
                       onClick={handleDocConversion}
                       disabled={loading}

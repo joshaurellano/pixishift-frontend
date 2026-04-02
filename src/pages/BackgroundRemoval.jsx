@@ -85,7 +85,32 @@ function BackgroundRemoval() {
 
           <br />          
           <div>
-            <Card className='uploadCol'> 
+            <Card className='uploadCol'>
+              <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                  <h4>Background Remover</h4>
+                  <span style={{fontSize:12, marginBottom:10}}>Upload the Image and we'll do the rest</span>
+                    <Row>
+                      <Col style={{display:'flex', gap:10}}>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          PNG
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          JPEG/JPG
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          WEBP
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          BMP
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          TIFF
+                        </div>
+                      </Col>
+                    </Row>
+                </div>
+            </div>
             <Row style={{padding:'5px', height:'100%', width:'100%'}}>
 
               <Col style={{width:'100%'}}>

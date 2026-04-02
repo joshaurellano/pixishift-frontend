@@ -89,7 +89,29 @@ function ImageResize() {
 
           <br />          
           <div>
-            <Card className='uploadCol'> 
+            <Card className='uploadCol'>
+              <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+              <div style={{display:'flex', flexDirection:'column'}}>
+                  <h4>Image Resizer</h4>
+                  <span style={{fontSize:12, marginBottom:10}}>Set exact dimesion in your prefered units</span>
+                    <Row>
+                      <Col style={{display:'flex', gap:10}}>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Pixels
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Inches
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Centimeters
+                        </div>
+                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
+                          Millimeters
+                        </div>
+                      </Col>
+                    </Row>
+                </div>
+            </div>
             <Row style={{padding:'5px', height:'100%'}}>
 
               <Col lg={9}>

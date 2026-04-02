@@ -99,6 +99,15 @@ function ImageWatermark() {
         <br />
         <div>
           <Card className='uploadCol'>
+            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                    <h4>Image Watermarking</h4>
+                    <span style={{fontSize:12, marginBottom:10}}>Put your brand into images</span>
+                      <div>
+                        
+                      </div>
+                  </div>
+              </div>
             <Row style={{ padding: '5px', height: '100%' }}>
               <Col lg={9}>
                 <UploadCardComponent onFileChange={handleFileChange} />

@@ -88,25 +88,43 @@ function ImageConversion() {
         <div>
           <Card className='uploadCol'>
             <Row style={{ padding: '5px', height: '100%' }}>
-              <Col lg={9}>
+              <Col lg={7}>
                 <UploadCardComponent onFileChange={handleFileChange} />
               </Col>
 
-              <Col lg={3}>
+              <Col lg={5}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ fontWeight: 'bold' }}>Select Output Format</span>
-                  <Form.Select
-                    value={outputFormat}
-                    onChange={(e) => setOutputFormat(e.target.value)}
-                  >
-                    <option value='png'>PNG</option>
-                    <option value='jpg'>JPG</option>
-                    <option value='jpeg'>JPEG</option>
-                    <option value='webp'>WEBP</option>
-                    <option value='avif'>AVIF</option>
-                    <option value='bmp'>BMP</option>
-                    <option value='tiff'>TIFF</option>
-                  </Form.Select>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: 8,
+                    marginBottom: 16,
+                  }}>
+                    {['PNG', 'JPEG', 'JPG', 'WEBP', 'BMP', 'TIFF', 'AVIF'].map(fmt => (
+                      <div
+                        key={fmt}
+                        onClick={() => setOutputFormat(fmt.toLowerCase())}
+                        style={{
+                          borderRadius: 10,
+                          border: `1.5px solid ${outputFormat === fmt.toLowerCase() ? '#1a3de4' : '#e9ecef'}`,
+                          height: 60,
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          cursor: 'pointer',
+                          backgroundColor: outputFormat === fmt.toLowerCase() ? '#eff6ff' : '#fff',
+                          fontWeight: 700,
+                          fontSize: 13,
+                          color: outputFormat === fmt.toLowerCase() ? '#1a3de4' : '#1f2937',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {fmt}
+                      </div>
+                    ))}
+                  </div>
+
                   <br />
                   <Button
                     onClick={handleConvert}

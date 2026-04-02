@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Button, Row, Col, Card, Spinner } from 'react-bootstrap'
+import { FaArrowRight } from "react-icons/fa";
 
 import FooterComponent from '../components/FooterComponent';
 import NavbarComponent from '../components/NavbarComponent'
@@ -77,13 +78,22 @@ function PdfImage() {
 
       <div className='container' style={{ width: '100%', padding: 20 }}>
         <div>
-          <h2 style={{ fontWeight: 'bold' }}>PDF to Images</h2>
+          <h2 style={{ fontWeight: 'bold' }}>PDF <FaArrowRight /> Images</h2>
           <span>Convert each page of your PDF into image files</span>
         </div>
 
         <br />
         <div>
           <Card className='uploadCol'>
+            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                    <h4>PDF Image</h4>
+                    <span style={{fontSize:12, marginBottom:10}}>Turn each page into images</span>
+                      <div>
+                        
+                      </div>
+                  </div>
+              </div>
             <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
               <Col style={{ width: '100%' }}>
                 <UploadCardComponent onFileChange={handleFileChange} />

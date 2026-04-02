@@ -73,6 +73,15 @@ function PdfMerge() {
         <br />
         <div>
           <Card className='uploadCol'>
+            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                    <h4>PDF Image</h4>
+                    <span style={{fontSize:12, marginBottom:10}}>Upload multiple pdf files and well combine it into single pdf file</span>
+                      <div>
+                        
+                      </div>
+                  </div>
+              </div>
             <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
               <Col style={{ width: '100%' }}>
                 <UploadCardComponent onFileChange={handleFileChange} />
