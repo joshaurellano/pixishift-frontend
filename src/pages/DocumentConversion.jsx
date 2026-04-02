@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { Button, Row, Col, Card, Spinner } from 'react-bootstrap'
+import { Button, Row, Col, Card, Spinner,Badge } from 'react-bootstrap'
+
+import { FaArrowRight } from "react-icons/fa";
 
 import FooterComponent from '../components/FooterComponent';
 import NavbarComponent from '../components/NavbarComponent'
@@ -101,6 +103,17 @@ function DocumentConversion() {
             <Row style={{padding:'5px', height:'100%', width:'100%'}}>
 
               <Col style={{width:'100%'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                  <h2>Office <FaArrowRight /> PDF</h2>
+                    <Row>
+                      <Col style={{display:'flex', gap:10}}>
+                        <Badge bg="primary">Word .docx</Badge>
+                        <Badge bg="primary">Excel .xlsx</Badge>
+                        <Badge bg="primary">Powerpoint .pptx</Badge>
+                      </Col>
+                    </Row>
+                </div>
+                <br />
                   <UploadCardComponent onFileChange={handleFileChange} />
                 <br />
                   <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
@@ -110,8 +123,8 @@ function DocumentConversion() {
                       style={{ backgroundColor: '#1a3de4', border: 'none' }}
                     >
                       {loading
-                        ? <><Spinner animation='border' size='sm' /> Converting...</>
-                        : 'Convert Document'
+                        ? <><Spinner animation='border' size='sm' /> Converting to PDF...</>
+                        : 'Convert Document to PDF'
                       }
                     </Button>
                   </div>
