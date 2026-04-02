@@ -205,8 +205,8 @@ function Home() {
         </div>
 
         <Row className="g-3 justify-content-center">
-          {howItWorks.map(({ id, title, desc, icon }) => (
-            <Col key={id} md={4}>
+          {howItWorks.map(({ title, desc, icon }) => (
+            <Col key={title} md={4}>
               <div style={{
                 backgroundColor: '#fff', borderRadius: 16,
                 border: '1px solid #e9ecef', padding: '28px 24px',
