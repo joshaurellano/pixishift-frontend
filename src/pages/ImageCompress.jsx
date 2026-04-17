@@ -1,152 +1,103 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Row, Col, Card, Form, Spinner } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
+import { FaCompressArrowsAlt } from 'react-icons/fa'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent'
+import ToolPageLayout from '../components/ToolPageLayout'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const ACCENT = '#3b82f6'
+
+function getQualityLabel(q) {
+  if (q >= 85) return { label: 'High quality', color: '#10b981' }
+  if (q >= 50) return { label: 'Balanced', color: '#f59e0b' }
+  return { label: 'Smaller file', color: '#ef4444' }
+}
 
 function ImageCompress() {
   const [files, setFiles] = useState([])
-  const [quality, setQuality] = useState(50)
+  const [quality, setQuality] = useState(75)
   const [loading, setLoading] = useState(false)
   const [downloadUrl, setDownloadUrl] = useState(null)
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleCompress = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-
       if (files.length === 1) {
         formData.append('file', files[0])
-        response = await axios.post(
-          `${API_ENDPOINT}/image-compress?quality=${quality}`,
-          formData,
-          { responseType: 'blob' }
-        )
-        const baseName = files[0].name.split('.')[0]
+        response = await axios.post(`${API_ENDPOINT}/image-compress?quality=${quality}`, formData, { responseType: 'blob' })
         const ext = files[0].name.split('.').pop()
-        setDownloadName(`${baseName}_compressed.${ext}`)
+        setDownloadName(`${files[0].name.split('.')[0]}_compressed.${ext}`)
       } else {
         files.forEach(file => formData.append('files', file))
-        response = await axios.post(
-          `${API_ENDPOINT}/batch-compress?quality=${quality}`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/batch-compress?quality=${quality}`, formData, { responseType: 'blob' })
         setDownloadName('pixishift_compressed.zip')
       }
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
+  const { label: qualityLabel, color: qualityColor } = getQualityLabel(quality)
+
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
+    <ToolPageLayout
+      title="Image Compressor"
+      subtitle="Reduce file size while keeping your images looking great. Supports batch compression."
+      accent={ACCENT}
+      accentBg="#eff6ff"
+      icon={<FaCompressArrowsAlt />}
+    >
+      <Row className="g-4">
+        <Col lg={8}>
+          <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+        </Col>
 
-      <div>
-        <NavbarComponent />
-      </div>
-
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Image Compressor</h2>
-          <span>Reduce your image file size while keeping it looking great</span>
-        </div>
-
-        <br />
-        <div>
-          <Card className='uploadCol'>
-            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-                <div style={{display:'flex', flexDirection:'column'}}>
-                    <h4>Image Compression</h4>
-                    <span style={{fontSize:12, marginBottom:10}}>Shrink file size without sacrificing visual quality</span>
-                      <div>
-                        
-                      </div>
-                  </div>
+        <Col lg={4}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 700, color: '#374151' }}>Quality</label>
+                <span style={{ fontSize: 13, fontWeight: 700, color: qualityColor }}>
+                  {quality}% — {qualityLabel}
+                </span>
               </div>
-            <Row style={{ padding: '5px', height: '100%' }}>
-              <Col lg={9}>
-                <UploadCardComponent onFileChange={handleFileChange} />
-              </Col>
+              <Form.Range
+                min={10} max={100} step={5}
+                value={quality}
+                onChange={(e) => setQuality(Number(e.target.value))}
+                style={{ accentColor: ACCENT }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
+                <span style={{ fontSize: 11, color: '#9ca3af' }}>Smaller file</span>
+                <span style={{ fontSize: 11, color: '#9ca3af' }}>Best quality</span>
+              </div>
+            </div>
 
-              <Col lg={3}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 'bold' }}>Quality: {quality}%</span>
-                  <Form.Range
-                    min={10}
-                    max={100}
-                    step={5}
-                    value={quality}
-                    onChange={(e) => setQuality(Number(e.target.value))}
-                  />
-                  <br />
-                  <Button
-                    onClick={handleCompress}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                  >
-                    {loading
-                      ? <><Spinner animation='border' size='sm' /> Compressing...</>
-                      : 'Compress Image'
-                    }
-                  </Button>
+            <ActionButton onClick={handleCompress} loading={loading} loadingText="Compressing..." accent={ACCENT}>
+              Compress Image
+            </ActionButton>
+            <ErrorAlert message={error} />
+          </div>
+        </Col>
+      </Row>
 
-                  {error && (
-                    <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                      {error}
-                    </span>
-                  )}
-                </div>
-              </Col>
-            </Row>
-          </Card>
-        </div>
-
-        <br />
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
-
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-        </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

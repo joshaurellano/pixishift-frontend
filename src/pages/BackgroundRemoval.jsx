@@ -1,16 +1,16 @@
-import React, { useState }  from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
+import { SiRemovedotbg } from 'react-icons/si'
 
-import { Button,Row, Col, Card, Spinner } from 'react-bootstrap'
+import ToolPageLayout from '../components/ToolPageLayout'
+import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent';
-import DownloadResultsComponent from '../components/DownloadResultsComponent';
+import { API_ENDPOINT } from '../../Api'
 
-import { API_ENDPOINT } from '../../Api';
-
-import '../styles/uploadCol.css'
+const ACCENT = '#3b82f6'
 
 function BackgroundRemoval() {
   const [files, setFiles] = useState([])
@@ -19,142 +19,49 @@ function BackgroundRemoval() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleBgRemove = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-      
-      if(files.length === 1) {
-      formData.append('file', files[0])
-      response = await axios.post(
-        `${API_ENDPOINT}/remove-bg`,
-        formData,
-        {responseType: 'blob'}
-      )
-      const baseName = files[0].name.split('.')[0]
-      setDownloadName(`${baseName}_bg-removed.png`)
-    } else {
-      files.forEach(file => formData.append('files',file))
-      response = await axios.post(
-        `${API_ENDPOINT}/batch-remove`,
-        formData,
-      { responseType: 'blob'}
-      )
-      setDownloadName('pixishift_removed-bg.zip')
-    }
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      if (files.length === 1) {
+        formData.append('file', files[0])
+        response = await axios.post(`${API_ENDPOINT}/remove-bg`, formData, { responseType: 'blob' })
+        setDownloadName(`${files[0].name.split('.')[0]}_bg-removed.png`)
+      } else {
+        files.forEach(file => formData.append('files', file))
+        response = await axios.post(`${API_ENDPOINT}/batch-remove`, formData, { responseType: 'blob' })
+        setDownloadName('pixishift_removed-bg.zip')
+      }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
-       
-       <div>
-            <NavbarComponent />
-        </div>
+    <ToolPageLayout
+      title="Background Remover"
+      subtitle="Automatically remove the background from your images. Output is a transparent PNG."
+      accent={ACCENT}
+      accentBg="#eff6ff"
+      icon={<SiRemovedotbg />}
+      badges={['PNG', 'JPEG', 'WEBP', 'BMP', 'TIFF']}
+    >
+      <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+      <div style={{ marginTop: 16 }}>
+        <ActionButton onClick={handleBgRemove} loading={loading} loadingText="Removing Background..." accent={ACCENT}>
+          Remove Background
+        </ActionButton>
+        <ErrorAlert message={error} />
+      </div>
 
-        <div className='container' style={{width: '100%',  padding:20}}>
-          <div>
-            <h2 style={{fontWeight:'bold'}}>Background Removal</h2>
-            <span>Easily remove background of your photos <br />
-            </span>
-          </div>
-
-          <br />          
-          <div>
-            <Card className='uploadCol'>
-              <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                  <h4>Background Remover</h4>
-                  <span style={{fontSize:12, marginBottom:10}}>Upload the Image and we'll do the rest</span>
-                    <Row>
-                      <Col style={{display:'flex', gap:10}}>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          PNG
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          JPEG/JPG
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          WEBP
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          BMP
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          TIFF
-                        </div>
-                      </Col>
-                    </Row>
-                </div>
-            </div>
-            <Row style={{padding:'5px', height:'100%', width:'100%'}}>
-
-              <Col style={{width:'100%'}}>
-                  <UploadCardComponent onFileChange={handleFileChange} />
-                <br />
-                  <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
-                    <Button
-                      onClick={handleBgRemove}
-                      disabled={loading}
-                      style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                    >
-                      {loading
-                        ? <><Spinner animation='border' size='sm' /> Removing Background...</>
-                        : 'Remove Background'
-                      }
-                    </Button>
-                  </div>
-
-                  {error && (
-                    <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                      {error}
-                    </span>
-                  )}
-                
-              </Col>
-             </Row>
-
-          </Card>
-
-          </div>
-            <br />
-          <div>
-            <DownloadResultsComponent 
-              downloadUrl={downloadUrl}
-              downloadName={downloadName}
-            />
-          </div>
-          
-        </div>
-
-        <div>
-          <FooterComponent />
-        </div>
-    </div>
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
+      </div>
+    </ToolPageLayout>
   )
 }
 

@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Row, Col, Card, Spinner } from 'react-bootstrap'
+import { FaCodeMerge } from 'react-icons/fa6'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent'
+import ToolPageLayout from '../components/ToolPageLayout'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const ACCENT = '#f97316'
 
 function PdfMerge() {
   const [files, setFiles] = useState([])
@@ -18,111 +19,42 @@ function PdfMerge() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleMerge = async () => {
-    if (files.length < 2) {
-      setError('Please select at least two PDF files to merge.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length < 2) { setError('Please select at least two PDF files to merge.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       files.forEach(file => formData.append('files', file))
-
-      const response = await axios.post(
-        `${API_ENDPOINT}/pdfmerge`,
-        formData,
-        { responseType: 'blob' }
-      )
-
+      const response = await axios.post(`${API_ENDPOINT}/pdfmerge`, formData, { responseType: 'blob' })
       setDownloadName('pixishift_merged.pdf')
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
-
-      <div>
-        <NavbarComponent />
+    <ToolPageLayout
+      title="PDF Merger"
+      subtitle="Combine multiple PDF files into one document. Files are merged in the order uploaded."
+      accent={ACCENT}
+      accentBg="#fff7ed"
+      icon={<FaCodeMerge />}
+      badges={['Requires 2+ PDFs']}
+    >
+      <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+      <div style={{ marginTop: 16 }}>
+        <ActionButton onClick={handleMerge} loading={loading} loadingText="Merging..." accent={ACCENT}>
+          Merge PDFs
+        </ActionButton>
+        <ErrorAlert message={error} />
       </div>
 
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>PDF Merger</h2>
-          <span>Combine multiple PDF files into one document</span>
-        </div>
-
-        <br />
-        <div>
-          <Card className='uploadCol'>
-            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-                <div style={{display:'flex', flexDirection:'column'}}>
-                    <h4>PDF Image</h4>
-                    <span style={{fontSize:12, marginBottom:10}}>Upload multiple pdf files and well combine it into single pdf file</span>
-                      <div>
-                        
-                      </div>
-                  </div>
-              </div>
-            <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
-              <Col style={{ width: '100%' }}>
-                <UploadCardComponent onFileChange={handleFileChange} />
-                <br />
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                  <Button
-                    onClick={handleMerge}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                  >
-                    {loading
-                      ? <><Spinner animation='border' size='sm' /> Merging...</>
-                      : 'Merge PDFs'
-                    }
-                  </Button>
-                </div>
-
-                {error && (
-                  <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                    {error}
-                  </span>
-                )}
-              </Col>
-            </Row>
-          </Card>
-        </div>
-
-        <br />
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
-
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-        </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

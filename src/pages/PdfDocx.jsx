@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Row, Col, Card, Spinner } from 'react-bootstrap'
-import { FaArrowRight } from "react-icons/fa";
+import { FaFileWord } from 'react-icons/fa'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent'
+import ToolPageLayout from '../components/ToolPageLayout'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const ACCENT = '#10b981'
 
 function PdfDocx() {
   const [files, setFiles] = useState([])
@@ -19,122 +19,48 @@ function PdfDocx() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleConvert = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-
       if (files.length === 1) {
         formData.append('file', files[0])
-        response = await axios.post(
-          `${API_ENDPOINT}/pdf2docx`,
-          formData,
-          { responseType: 'blob' }
-        )
-        const baseName = files[0].name.split('.')[0]
-        setDownloadName(`${baseName}.docx`)
+        response = await axios.post(`${API_ENDPOINT}/pdf2docx`, formData, { responseType: 'blob' })
+        setDownloadName(`${files[0].name.split('.')[0]}.docx`)
       } else {
         files.forEach(file => formData.append('files', file))
-        response = await axios.post(
-          `${API_ENDPOINT}/batch-pdf2docx`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/batch-pdf2docx`, formData, { responseType: 'blob' })
         setDownloadName('pixishift_docx.zip')
       }
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
-
-      <div>
-        <NavbarComponent />
+    <ToolPageLayout
+      title="PDF to DOCX"
+      subtitle="Convert PDF files into editable Microsoft Word documents you can modify freely."
+      accent={ACCENT}
+      accentBg="#ecfdf5"
+      icon={<FaFileWord />}
+    >
+      <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+      <div style={{ marginTop: 16 }}>
+        <ActionButton onClick={handleConvert} loading={loading} loadingText="Converting..." accent={ACCENT}>
+          Convert to DOCX
+        </ActionButton>
+        <ErrorAlert message={error} />
       </div>
 
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>PDF to DOCX</h2>
-          <span>Convert your PDF files into editable Word documents</span>
-        </div>
-
-        <br />
-        <div>
-          <Card className='uploadCol'>
-            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-                <div style={{display:'flex', flexDirection:'column'}}>
-                    <h4>PDF <FaArrowRight /> Word Document</h4>
-                    <span style={{fontSize:12, marginBottom:10}}>Convert your PDF file into editable word document</span>
-                      <div>
-                        
-                      </div>
-                  </div>
-              </div>
-            <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
-              <Col style={{ width: '100%' }}>
-                <UploadCardComponent onFileChange={handleFileChange} />
-                <br />
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                  <Button
-                    onClick={handleConvert}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                  >
-                    {loading
-                      ? <><Spinner animation='border' size='sm' /> Converting...</>
-                      : 'Convert to DOCX'
-                    }
-                  </Button>
-                </div>
-
-                {error && (
-                  <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                    {error}
-                  </span>
-                )}
-              </Col>
-            </Row>
-          </Card>
-        </div>
-
-        <br />
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
-
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-        </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

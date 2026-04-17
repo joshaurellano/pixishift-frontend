@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import axios from 'axios';
-import { Button, Row, Col, Card, Spinner,Badge } from 'react-bootstrap'
+import axios from 'axios'
+import { SiLibreofficebase } from 'react-icons/si'
 
-import { FaArrowRight } from "react-icons/fa";
-
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent';
-import DownloadResultsComponent from '../components/DownloadResultsComponent';
+import ToolPageLayout from '../components/ToolPageLayout'
+import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
-
+const ACCENT = '#10b981'
 const ALLOWED_EXTENSIONS = ['docx', 'xlsx', 'pptx']
 
 function DocumentConversion() {
@@ -22,147 +20,53 @@ function DocumentConversion() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleDocConversion = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    const allAllowed = files.every(file =>
-      ALLOWED_EXTENSIONS.includes(file.name.split('.').pop().toLowerCase())
-    )
-
-    if (!allAllowed) {
-      setError('Invalid file type. Only .docx, .xlsx, and .pptx are allowed.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    const allAllowed = files.every(file => ALLOWED_EXTENSIONS.includes(file.name.split('.').pop().toLowerCase()))
+    if (!allAllowed) { setError('Invalid file type. Only .docx, .xlsx, and .pptx are allowed.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-
       const baseName = files[0].name.split('.')[0]
       const ext = files[0].name.split('.').pop().toLowerCase()
-
       if (files.length === 1) {
         formData.append('file', files[0])
-        response = await axios.post(
-          `${API_ENDPOINT}/${ext}2pdf`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/${ext}2pdf`, formData, { responseType: 'blob' })
         setDownloadName(`${baseName}.pdf`)
       } else {
         files.forEach(file => formData.append('files', file))
-        response = await axios.post(
-          `${API_ENDPOINT}/batch-docs2pdf`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/batch-docs2pdf`, formData, { responseType: 'blob' })
         setDownloadName('pixishift_pdf.zip')
       }
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
-
-      <div>
-        <NavbarComponent />
+    <ToolPageLayout
+      title="Office to PDF"
+      subtitle="Convert Word, Excel, and PowerPoint files to PDF. Supports batch conversion."
+      accent={ACCENT}
+      accentBg="#ecfdf5"
+      icon={<SiLibreofficebase />}
+      badges={['Word .docx', 'Excel .xlsx', 'PowerPoint .pptx']}
+    >
+      <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+      <div style={{ marginTop: 16 }}>
+        <ActionButton onClick={handleDocConversion} loading={loading} loadingText="Converting to PDF..." accent={ACCENT}>
+          Convert Document to PDF
+        </ActionButton>
+        <ErrorAlert message={error} />
       </div>
 
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Document Converter</h2>
-          <span>Easily convert your office documents to PDF</span>
-        </div>
-
-        <br />
-
-        <div>
-          <Card className='uploadCol'>
-            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                  <h4>Office <FaArrowRight /> PDF</h4>
-                    <Row>
-                      <Col style={{display:'flex', gap:10}}>
-                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Word .docx
-                        </div>
-                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Excel .xlsx
-                        </div>
-                        <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Powerpoint .pptx
-                        </div>
-                      </Col>
-                    </Row>
-                </div>
-            </div>
-            <Row style={{padding:'5px', height:'100%', width:'100%'}}>
-
-              <Col style={{width:'100%'}}>
-                
-                <br />
-                  <UploadCardComponent onFileChange={handleFileChange} />
-                  <div style={{width:'100%', display:'flex', justifyContent:'center', marginBottom:15, marginTop:15}}>
-                    <Button
-                      onClick={handleDocConversion}
-                      disabled={loading}
-                      style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                    >
-                      {loading
-                        ? <><Spinner animation='border' size='sm' /> Converting to PDF...</>
-                        : 'Convert Document to PDF'
-                      }
-                    </Button>
-                  </div>
-
-                  {error && (
-                    <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                      {error}
-                    </span>
-                  )}
-                
-              </Col>
-             </Row>
-          </Card>
-        </div>
-
-        <br />
-
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
-
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-      </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Row, Col, Card, Form, Spinner } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
+import { SiConvertio } from 'react-icons/si'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
+import ToolPageLayout from '../components/ToolPageLayout'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
 import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const FORMATS = ['PNG', 'JPEG', 'JPG', 'WEBP', 'BMP', 'TIFF', 'AVIF']
+const ACCENT = '#3b82f6'
 
 function ImageConversion() {
   const [files, setFiles] = useState([])
@@ -26,142 +29,78 @@ function ImageConversion() {
   }
 
   const handleConvert = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-
       if (files.length === 1) {
         formData.append('file', files[0])
-        response = await axios.post(
-          `${API_ENDPOINT}/convert?out_img_format=${outputFormat}`,
-          formData,
-          { responseType: 'blob' }
-        )
-        const baseName = files[0].name.split('.')[0]
-        setDownloadName(`${baseName}.${outputFormat}`)
+        response = await axios.post(`${API_ENDPOINT}/convert?out_img_format=${outputFormat}`, formData, { responseType: 'blob' })
+        setDownloadName(`${files[0].name.split('.')[0]}.${outputFormat}`)
       } else {
         files.forEach(file => formData.append('files', file))
-        response = await axios.post(
-          `${API_ENDPOINT}/batch-convert?out_img_format=${outputFormat}`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/batch-convert?out_img_format=${outputFormat}`, formData, { responseType: 'blob' })
         setDownloadName('pixishift_converted.zip')
       }
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-        setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
+    <ToolPageLayout
+      title="Image Converter"
+      subtitle="Convert between JPG, PNG, WebP, AVIF, BMP, TIFF, and more."
+      accent={ACCENT}
+      accentBg="#eff6ff"
+      icon={<SiConvertio />}
+      badges={FORMATS}
+    >
+      <Row className="g-4">
+        <Col lg={7}>
+          <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+        </Col>
 
-      <div>
-        <NavbarComponent />
-      </div>
-
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Image Converter</h2>
-          <span>Easily convert your images <br />
-            Ideal for product photos and document submissions
-          </span>
-        </div>
-
-        <br />
-        <div>
-          <Card className='uploadCol'>
-            <Row style={{ padding: '5px', height: '100%' }}>
-              <Col lg={7}>
-                <UploadCardComponent onFileChange={handleFileChange} />
-              </Col>
-
-              <Col lg={5}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 'bold' }}>Select Output Format</span>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: 8,
-                    marginBottom: 16,
-                  }}>
-                    {['PNG', 'JPEG', 'JPG', 'WEBP', 'BMP', 'TIFF', 'AVIF'].map(fmt => (
-                      <div
-                        key={fmt}
-                        onClick={() => setOutputFormat(fmt.toLowerCase())}
-                        style={{
-                          borderRadius: 10,
-                          border: `1.5px solid ${outputFormat === fmt.toLowerCase() ? '#1a3de4' : '#e9ecef'}`,
-                          height: 60,
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          cursor: 'pointer',
-                          backgroundColor: outputFormat === fmt.toLowerCase() ? '#eff6ff' : '#fff',
-                          fontWeight: 700,
-                          fontSize: 13,
-                          color: outputFormat === fmt.toLowerCase() ? '#1a3de4' : '#1f2937',
-                          transition: 'all 0.15s ease',
-                        }}
-                      >
-                        {fmt}
-                      </div>
-                    ))}
-                  </div>
-
-                  <br />
-                  <Button
-                    onClick={handleConvert}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                  >
-                    {loading
-                      ? <><Spinner animation='border' size='sm' /> Converting...</>
-                      : 'Convert Image'
-                    }
-                  </Button>
-
-                  {error && (
-                    <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                      {error}
-                    </span>
-                  )}
+        <Col lg={5}>
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <span style={{ fontWeight: 700, fontSize: 13.5, color: '#374151', marginBottom: 10 }}>
+              Select Output Format
+            </span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 20 }}>
+              {FORMATS.map(fmt => (
+                <div
+                  key={fmt}
+                  onClick={() => setOutputFormat(fmt.toLowerCase())}
+                  style={{
+                    borderRadius: 10,
+                    border: `1.5px solid ${outputFormat === fmt.toLowerCase() ? ACCENT : '#e9ecef'}`,
+                    height: 52,
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    cursor: 'pointer',
+                    backgroundColor: outputFormat === fmt.toLowerCase() ? '#eff6ff' : '#fff',
+                    fontWeight: 700, fontSize: 12.5,
+                    color: outputFormat === fmt.toLowerCase() ? ACCENT : '#6b7280',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {fmt}
                 </div>
-              </Col>
-            </Row>
-          </Card>
-        </div>
+              ))}
+            </div>
 
-        <br />
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
+            <ActionButton onClick={handleConvert} loading={loading} loadingText="Converting..." accent={ACCENT}>
+              Convert Image
+            </ActionButton>
+            <ErrorAlert message={error} />
+          </div>
+        </Col>
+      </Row>
 
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-        </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

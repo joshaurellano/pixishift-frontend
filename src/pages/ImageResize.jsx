@@ -1,15 +1,23 @@
-import React, { useState }  from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import {Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap'
+import { Row, Col, Form } from 'react-bootstrap'
+import { GiResize } from 'react-icons/gi'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent';
-import DownloadResultsComponent from '../components/DownloadResultsComponent';
+import ToolPageLayout from '../components/ToolPageLayout'
+import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const ACCENT = '#3b82f6'
+const UNITS = [
+  { value: 'px', label: 'Pixels (px)' },
+  { value: 'in', label: 'Inches (in)' },
+  { value: 'cm', label: 'Centimeters (cm)' },
+  { value: 'mm', label: 'Millimeters (mm)' },
+]
 
 function ImageResize() {
   const [files, setFiles] = useState([])
@@ -21,168 +29,95 @@ function ImageResize() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleResize = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       let response
-
       if (files.length === 1) {
         formData.append('file', files[0])
-        response = await axios.post(
-          `${API_ENDPOINT}/image-resize?img_width=${width}&img_height=${height}&unit=${unit}`,
-          formData,
-          { responseType: 'blob' }
-        )
-        const baseName = files[0].name.split('.')[0]
+        response = await axios.post(`${API_ENDPOINT}/image-resize?img_width=${width}&img_height=${height}&unit=${unit}`, formData, { responseType: 'blob' })
         const ext = files[0].name.split('.').pop()
-
-        setDownloadName(`${baseName}_resized.${ext}`)
+        setDownloadName(`${files[0].name.split('.')[0]}_resized.${ext}`)
       } else {
         files.forEach(file => formData.append('files', file))
-        response = await axios.post(
-          `${API_ENDPOINT}/batch-resize?img_width=${width}&img_height=${height}&unit=${unit}`,
-          formData,
-          { responseType: 'blob' }
-        )
+        response = await axios.post(`${API_ENDPOINT}/batch-resize?img_width=${width}&img_height=${height}&unit=${unit}`, formData, { responseType: 'blob' })
         setDownloadName('pixishift_resized.zip')
       }
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
+  }
 
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-        setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+  const inputStyle = {
+    borderRadius: 8, border: '1.5px solid #e9ecef',
+    padding: '9px 12px', fontSize: 14, width: '100%',
+    outline: 'none', transition: 'border 0.15s',
   }
 
   return (
-    <div style={{minHeight:'100vh',  overflowX:'hidden', backgroundColor:'#F4F6F8'}}>
-       
-       <div>
-            <NavbarComponent />
-        </div>
+    <ToolPageLayout
+      title="Image Resizer"
+      subtitle="Resize images to exact dimensions in pixels, inches, centimeters, or millimeters."
+      accent={ACCENT}
+      accentBg="#eff6ff"
+      icon={<GiResize />}
+      badges={['Pixels', 'Inches', 'Centimeters', 'Millimeters']}
+    >
+      <Row className="g-4">
+        <Col lg={7}>
+          <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+        </Col>
 
-        <div className='container' style={{width: '100%',  padding:20}}>
-          <div>
-            <h2 style={{fontWeight:'bold'}}>Image Resizer</h2>
-            <span>Easily resize make your images bigger or smaller<br />
-            </span>
-          </div>
-
-          <br />          
-          <div>
-            <Card className='uploadCol'>
-              <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-              <div style={{display:'flex', flexDirection:'column'}}>
-                  <h4>Image Resizer</h4>
-                  <span style={{fontSize:12, marginBottom:10}}>Set exact dimesion in your prefered units</span>
-                    <Row>
-                      <Col style={{display:'flex', gap:10}}>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Pixels
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Inches
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Centimeters
-                        </div>
-                        <div style={{borderRadius:12, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                          Millimeters
-                        </div>
-                      </Col>
-                    </Row>
-                </div>
+        <Col lg={5}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div>
+              <label style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 6, display: 'block' }}>Unit</label>
+              <Form.Select value={unit} onChange={(e) => setUnit(e.target.value)} style={{ ...inputStyle, padding: '9px 12px' }}>
+                {UNITS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}
+              </Form.Select>
             </div>
-            <Row style={{padding:'5px', height:'100%'}}>
 
-              <Col lg={9}>
-                <UploadCardComponent onFileChange={handleFileChange} />        
-                </Col>
-
-                <Col lg={3}>
-                  <div style={{height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                    <div style={{width:'100%', display:'flex', justifyContent:'start'}}>
-                      <Form.Label style={{fontWeight:'bold'}}>Select Unit</Form.Label>
-                    </div>
-                    <Form.Select
-                      value={unit}
-                      onChange={(e) => setUnit(e.target.value)}
-                    >
-                      <option value='px'>Pixels (px)</option>
-                      <option value='in'>Inches (in)</option>
-                      <option value='cm'>Centimeters (cm)</option>
-                      <option value='mm'>Millimeters (mm)</option>
-                    </Form.Select>
-
-                    <br />
-
-                    <div style={{width:'100%', display:'flex', justifyContent:'start'}}>
-                      <Form.Label style={{fontWeight:'bold'}}>Width: </Form.Label>
-                    </div>
-                    <Form.Control value={width} onChange={(e) => setWidth(e.target.value)} type='number' />
-                  <br />
-                  <div style={{width:'100%', display:'flex', justifyContent:'start'}}>
-                      <Form.Label style={{fontWeight:'bold'}}>Height: </Form.Label>
-                    </div>
-                    <Form.Control value={height} onChange={(e) => setHeight(e.target.value)} type='number' />
-                  <br />
-                  <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:'column'}}>
-                    <Button
-                      onClick={handleResize}
-                      disabled={loading}
-                      style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                    >
-                      {loading
-                        ? <><Spinner animation='border' size='sm' /> Resizing...</>
-                        : 'Resize Image'
-                      }
-                    </Button>
-
-                    {error && (
-                    <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                      {error}
-                    </span>
-                  )}
-                  </div>
-                </div> 
+            <Row className="g-3">
+              <Col>
+                <label style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 6, display: 'block' }}>Width</label>
+                <input
+                  type="number" value={width}
+                  onChange={(e) => setWidth(e.target.value)}
+                  placeholder="e.g. 1920"
+                  style={inputStyle}
+                  onFocus={e => e.target.style.borderColor = ACCENT}
+                  onBlur={e => e.target.style.borderColor = '#e9ecef'}
+                />
+              </Col>
+              <Col>
+                <label style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 6, display: 'block' }}>Height</label>
+                <input
+                  type="number" value={height}
+                  onChange={(e) => setHeight(e.target.value)}
+                  placeholder="e.g. 1080"
+                  style={inputStyle}
+                  onFocus={e => e.target.style.borderColor = ACCENT}
+                  onBlur={e => e.target.style.borderColor = '#e9ecef'}
+                />
               </Col>
             </Row>
 
-          </Card>
-
+            <ActionButton onClick={handleResize} loading={loading} loadingText="Resizing..." accent={ACCENT}>
+              Resize Image
+            </ActionButton>
+            <ErrorAlert message={error} />
           </div>
-            <br />
-          <div>
-            <DownloadResultsComponent 
-              downloadUrl={downloadUrl}
-              downloadName={downloadName} />
-          </div>
-          
-        </div>
+        </Col>
+      </Row>
 
-        <div>
-          <FooterComponent />
-        </div>
-    </div>
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
+      </div>
+    </ToolPageLayout>
   )
 }
 

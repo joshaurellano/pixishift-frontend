@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Row, Col, Card, Spinner } from 'react-bootstrap'
-import { FaArrowRight } from "react-icons/fa";
+import { GrDocumentPdf } from 'react-icons/gr'
 
-import FooterComponent from '../components/FooterComponent';
-import NavbarComponent from '../components/NavbarComponent'
-import UploadCardComponent from '../components/UploadCardComponent'
+import ToolPageLayout from '../components/ToolPageLayout'
 import DownloadResultsComponent from '../components/DownloadResultsComponent'
+import UploadCardComponent from '../components/UploadCardComponent'
+import ErrorAlert from '../components/ErrorAlert'
+import ActionButton from '../components/ActionButton'
 
 import { API_ENDPOINT } from '../../Api'
 
-import '../styles/uploadCol.css'
+const ACCENT = '#3b82f6'
 
 function ImagePdf() {
   const [files, setFiles] = useState([])
@@ -19,116 +19,42 @@ function ImagePdf() {
   const [downloadName, setDownloadName] = useState('')
   const [error, setError] = useState(null)
 
-  const handleFileChange = (selectedFiles) => {
-    setFiles(selectedFiles)
-    setDownloadUrl(null)
-    setError(null)
-  }
+  const handleFileChange = (selectedFiles) => { setFiles(selectedFiles); setDownloadUrl(null); setError(null) }
 
   const handleConvert = async () => {
-    if (files.length === 0) {
-      setError('Please select at least one file.')
-      return
-    }
-
-    setLoading(true)
-    setError(null)
-    setDownloadUrl(null)
-
+    if (files.length === 0) { setError('Please select at least one file.'); return }
+    setLoading(true); setError(null); setDownloadUrl(null)
     try {
       const formData = new FormData()
       files.forEach(file => formData.append('files', file))
-
-      const response = await axios.post(
-        `${API_ENDPOINT}/img2pdf`,
-        formData,
-        { responseType: 'blob' }
-      )
-
-      const baseName = files[0].name.split('.')[0]
-      setDownloadName(files.length === 1 ? `${baseName}.pdf` : 'pixishift_images.pdf')
-
-      const blob = new Blob([response.data])
-      const url = URL.createObjectURL(blob)
-      setDownloadUrl(url)
-
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+      const response = await axios.post(`${API_ENDPOINT}/img2pdf`, formData, { responseType: 'blob' })
+      setDownloadName(files.length === 1 ? `${files[0].name.split('.')[0]}.pdf` : 'pixishift_images.pdf')
+      setDownloadUrl(URL.createObjectURL(new Blob([response.data])))
+    } catch { setError('Something went wrong. Please try again.') }
+    finally { setLoading(false) }
   }
 
   return (
-    <div style={{ minHeight: '100vh', overflowX: 'hidden', backgroundColor: '#F4F6F8' }}>
-
-      <div>
-        <NavbarComponent />
+    <ToolPageLayout
+      title="Image to PDF"
+      subtitle="Bundle one or multiple images into a single PDF file. Images are added in the order you upload them."
+      accent={ACCENT}
+      accentBg="#eff6ff"
+      icon={<GrDocumentPdf />}
+      badges={['Multi-image support']}
+    >
+      <UploadCardComponent onFileChange={handleFileChange} accent={ACCENT} />
+      <div style={{ marginTop: 16 }}>
+        <ActionButton onClick={handleConvert} loading={loading} loadingText="Converting..." accent={ACCENT}>
+          Convert to PDF
+        </ActionButton>
+        <ErrorAlert message={error} />
       </div>
 
-      <div className='container' style={{ width: '100%', padding: 20 }}>
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Image to PDF</h2>
-          <span>Convert one or multiple images into a single PDF file</span>
-        </div>
-
-        <br />
-        <div>
-          <Card className='uploadCol'>
-            <div style={{backgroundColor:'#1a3de4', borderTopLeftRadius:15,borderTopRightRadius:15, padding:20, color:'white'}}>
-            <div style={{display:'flex', flexDirection:'column'}}>
-                <h4>Image <FaArrowRight /> PDF</h4>
-                  <span style={{fontSize:12, marginBottom:10}}>Upload one or more images to bundle into single pdf file</span>
-                  <Row>
-                    <Col style={{display:'flex', gap:10}}>
-                      <div style={{borderRadius:18, backgroundColor:'rgba(185, 194, 241, 0.5)', fontSize:11, padding:5}}>
-                        Multi-image Support
-                      </div>
-                    </Col>
-                  </Row>
-              </div>
-          </div>
-            <Row style={{ padding: '5px', height: '100%', width: '100%' }}>
-              <Col style={{ width: '100%' }}>
-                <UploadCardComponent onFileChange={handleFileChange} />
-                <br />
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                  <Button
-                    onClick={handleConvert}
-                    disabled={loading}
-                    style={{ backgroundColor: '#1a3de4', border: 'none' }}
-                  >
-                    {loading
-                      ? <><Spinner animation='border' size='sm' /> Converting...</>
-                      : 'Convert to PDF'
-                    }
-                  </Button>
-                </div>
-
-                {error && (
-                  <span style={{ color: 'red', fontSize: 12, marginTop: 8 }}>
-                    {error}
-                  </span>
-                )}
-              </Col>
-            </Row>
-          </Card>
-        </div>
-
-        <br />
-        <div>
-          <DownloadResultsComponent
-            downloadUrl={downloadUrl}
-            downloadName={downloadName}
-          />
-        </div>
-
+      <div style={{ marginTop: 24 }}>
+        <DownloadResultsComponent downloadUrl={downloadUrl} downloadName={downloadName} />
       </div>
-
-      <div>
-          <FooterComponent />
-        </div>
-    </div>
+    </ToolPageLayout>
   )
 }
 

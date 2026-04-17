@@ -1,8 +1,9 @@
-.uploadCol{
-    padding: 10px;
-    width: 100%;
-    border-radius: 20px;
-    border: none;
-    min-height: 400px;
-    box-shadow: 5px 5px #888888
+.uploadCol {
+  padding: 10px;
+  width: 100%;
+  border-radius: 16px;
+  border: 1.5px solid #e9ecef !important;
+  min-height: 300px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: #fff;
 }

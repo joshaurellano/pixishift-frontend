@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { TiDownload } from 'react-icons/ti'
-import { IoMdDownload } from "react-icons/io";
+import { IoMdDownload } from 'react-icons/io'
 
 function DownloadResultsComponent({ downloadUrl, downloadName }) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-  if (downloadUrl) setTimeout(() => setVisible(true), 60)
-  else setTimeout(() => setVisible(false), 0)
-}, [downloadUrl])
+    if (downloadUrl) setTimeout(() => setVisible(true), 60)
+    else setTimeout(() => setVisible(false), 0)
+  }, [downloadUrl])
 
   if (!downloadUrl) return null
-
-  // const ext = downloadName?.split('.').pop().toUpperCase() || 'FILE'
-  // const isZip = ext === 'ZIP'
 
   return (
     <div style={{
@@ -49,11 +46,11 @@ function DownloadResultsComponent({ downloadUrl, downloadName }) {
         <div style={{ padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
             width: 42, height: 42, borderRadius: 10, flexShrink: 0,
+            backgroundColor: '#dcfce7',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 9.5, fontWeight: 800,
-            letterSpacing: '0.03em',
+            color: '#10b981',
           }}>
-            <IoMdDownload style={{fontSize:'20'}} />
+            <IoMdDownload style={{ fontSize: 22 }} />
           </div>
 
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -64,7 +61,7 @@ function DownloadResultsComponent({ downloadUrl, downloadName }) {
               {downloadName}
             </p>
             <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
-              'Converted file — ready to save'
+              Converted file — ready to save
             </p>
           </div>
 
